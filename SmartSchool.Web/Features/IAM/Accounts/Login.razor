@@ -1,0 +1,64 @@
+﻿@using System.ComponentModel.DataAnnotations
+@using Microsoft.AspNetCore.Components.Forms
+@using SmartSchool.Web.Components.Layout
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Identity
+@using System.Security.Claims
+@page "/login"
+@layout AuthLayout
+@attribute [AllowAnonymous]
+@inject NavigationManager navigationManager
+@inject UserManager<IdentityUser> userManager
+@inject IUserStore<IdentityUser> userStore
+@inject RoleManager<IdentityRole> roleManager
+@inject SignInManager<IdentityUser> signInManager
+<EditForm method="post" Model="LoginForm" OnValidSubmit="PerformLogin" FormName="login" style="margin-top:-10px">
+    <hr />
+    <div class="form-outline">
+        <label fro="email" class="from-label">Email:</label>
+        <InputText @bind-Value="LoginForm.Email" required placeholder="user@example.com" class="form-control"></InputText>
+    </div>
+    <div class="form-outline">
+        <label fro="password" class="from-label">Password:</label>
+        <InputText type="password" @bind-Value="LoginForm.Password" required class="form-control"></InputText>
+    </div>
+    <div class="text-center pt-1 mb-5 pb-1">
+        <button type="submit" class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3">Login</button>
+
+    </div>
+</EditForm>
+@code {
+    [SupplyParameterFromForm]
+    private LoginModel LoginForm { get; set; } = new();
+    public async Task PerformLogin(EditContext editContext)
+    {
+        // var identity=new IdentityUser();
+        // await userManager.SetUserNameAsync(identity, LoginForm.Email);
+        // var emailStore = (IUserEmailStore<IdentityUser>)userStore;
+        // await emailStore.SetEmailAsync(identity, LoginForm.Email, CancellationToken.None);
+        // var createdIdentity =await userManager.CreateAsync(identity,LoginForm.Password);
+        // var claims = new List<Claim>
+        // {
+        //     new("firstName","Dan"),
+        //     new("lastName","Patrascu")
+        // };
+        // await userManager.AddClaimsAsync(identity, claims);
+        // var superAdminRole=new IdentityRole("Superadmin");
+        // await roleManager.CreateAsync(superAdminRole);
+        // await userManager.AddToRoleAsync(identity, "Superadmin");
+        await signInManager.PasswordSignInAsync(LoginForm.Email, LoginForm.Password, true, lockoutOnFailure: false);
+        navigationManager.NavigateTo("/");
+    }
+    public class LoginModel
+    {
+        [Required]
+        [EmailAddress]
+        [Display(Name ="Email")]
+        public string Email { get; set; } = string.Empty;
+        [Required]
+        [DataType(DataType.Password)]
+        [Display(Name ="Password")]
+        public string Password { get; set; } = string.Empty;
+    }
+
+}
