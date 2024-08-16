@@ -14,11 +14,11 @@ jobs:
 
       - name: Set up Git
         run: |
-          git config --global user.name 'github-actions'
-          git config --global user.email 'github-actions@github.com'
+          git config --global user.name 'manhalshiha'
+          git config --global user.email 'manhal6@gmail.com'
 
       - name: Add Azure DevOps remote
-        run: git remote add azure <URL-of-your-Azure-repo>
+        run: git remote add azure <https://manhal6Official@dev.azure.com/manhal6Official/MicroServicesSmartSchool/_git/SmartSchool>
 
       - name: Fetch from Azure DevOps
         run: git fetch azure
