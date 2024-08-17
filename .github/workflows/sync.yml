@@ -8,6 +8,7 @@ on:
 jobs:
   sync:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout GitHub repository
         uses: actions/checkout@v2
@@ -18,10 +19,10 @@ jobs:
           git config --global user.email 'manhal6@gmail.com'
 
       - name: Add Azure DevOps remote
-        run: git remote add azure <https://manhal6Official@dev.azure.com/manhal6Official/MicroServicesSmartSchool/_git/SmartSchool>
+        run: git remote add azure ${{https://manhal6Official@dev.azure.com/manhal6Official/MicroServicesSmartSchool/_git/SmartSchool }}
 
       - name: Fetch from Azure DevOps
         run: git fetch azure
 
       - name: Push to GitHub
-        run: git push github --all
+        run: git push origin --all
